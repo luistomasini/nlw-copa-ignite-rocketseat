@@ -5,9 +5,9 @@ const prisma = new PrismaClient()
 async function main() {
     const user = await prisma.user.create({
         data: {
-            name: 'John Doe',
-            email: 'hauhauhau@gmail.com',
-            avatarURL: 'https://github.com/luistomasini.png',
+            name: 'Luis Paulo',
+            email: 'luistomasini@gmail.com',
+            avatarUrl: 'https://github.com/luistomasini.png'
         }
     })
 

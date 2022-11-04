@@ -6,7 +6,7 @@ import { Fontisto } from '@expo/vector-icons'
 
 import Logo from '../assets/logo.svg'
 
-export function SingIn(){
+export function SignIn(){
     const { signIn, user } = useAuth();
 
 
