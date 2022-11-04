@@ -1,5 +1,4 @@
-import { Heading, VStack, Text 
-} from 'native-base'
+import { Heading, VStack, Text } from 'native-base'
 import { Header } from '../components/Header'
 
 import Logo from '../assets/logo.svg'
@@ -10,7 +9,7 @@ import { Button } from '../components/Button'
 
 export function New(){
     return (
-        <VStack flex={1} bg-color="gray.900">
+        <VStack flex={1} bgColor="gray.900">
             <Header title="Criar novo bolão" />
 
             <VStack mt={8} mx={5} alignItems="center">
