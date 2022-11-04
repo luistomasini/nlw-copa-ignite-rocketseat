@@ -49,14 +49,14 @@ export async function authRoutes(fastify: FastifyInstance) {
                     googleId: userInfo.id,
                     name: userInfo.name,
                     email: userInfo.email,
-                    avatarUrl: userInfo.picture,
+                    avatarURL: userInfo.picture,
                 }
             })
         }
 
         const token = fastify.jwt.sign({
             name: user.name,
-            avatarURL: user.avatarUrl,
+            avatarURL: user.avatarURL,
         }, {
             sub: user.id,
             expiresIn: '7 days',

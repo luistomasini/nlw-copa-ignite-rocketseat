@@ -131,7 +131,7 @@ export async function poolRoutes(fastify: FastifyInstance) {
 
                         user: {
                             select: {
-                                avatarUrl: true,
+                                avatarURL: true,
                             }
                         }
                     },
@@ -175,7 +175,7 @@ export async function poolRoutes(fastify: FastifyInstance) {
 
                         user: {
                             select: {
-                                avatarUrl: true,
+                                avatarURL: true,
                             }
                         }
                     },
