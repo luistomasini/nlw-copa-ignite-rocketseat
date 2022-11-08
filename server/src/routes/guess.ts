@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify"
 import { z } from "zod"
 import { prisma } from "../lib/prisma"
-import { authenticate } from "../plugins/authenticate"
+import { authenticate } from "../plugins/autheticate"
 
 export async function guessRoutes(fastify: FastifyInstance) {
     fastify.get('/guesses/count', async () => {
@@ -24,20 +24,20 @@ export async function guessRoutes(fastify: FastifyInstance) {
         })
 
         const { poolId, gameId } = createGuessParams.parse(request.params)
-        const { firstTeamPoints , secondTeamPoints } = createGuessBody.parse(request.body)
+        const { firstTeamPoints, secondTeamPoints} = createGuessBody.parse(request.body)
 
         const participant = await prisma.participant.findUnique({
             where: {
                 userId_poolId: {
                     poolId,
-                    userId: request.user.sub,
+                    userId: request.user.sub
                 }
             }
         })
 
         if (!participant) {
             return reply.status(400).send({
-                message: "You are not allowed to create a guess inside this pool."
+                message: "Você não está permitido a criar um palpite nesse bolão."
             })
         }
 
@@ -52,25 +52,26 @@ export async function guessRoutes(fastify: FastifyInstance) {
 
         if (guess) {
             return reply.status(400).send({
-                message: "You already sent a guess to this game on this pool."
+                message: "Você já enviou um palpite, nesse jogo e nesse bolão."
             })
         }
 
         const game = await prisma.game.findUnique({
             where: {
                 id: gameId,
+
             }
         })
 
         if (!game) {
             return reply.status(400).send({
-                message: "Game not found."
+                message: "Jogo não encontrado."
             })
         }
 
         if (game.date < new Date()) {
             return reply.status(400).send({
-                message: "You cannot send guesses after the game date."
+                message: "Você não pode enviar palpites após a data dos jogos."
             })
         }
 
@@ -79,9 +80,7 @@ export async function guessRoutes(fastify: FastifyInstance) {
                 gameId,
                 participantId: participant.id,
                 firstTeamPoints,
-                secondTeamPoints,
-
-
+                secondTeamPoints
             }
         })
 

@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify"
 import { z } from "zod"
 import { prisma } from "../lib/prisma"
-import { authenticate } from "../plugins/authenticate"
+import { authenticate } from "../plugins/autheticate"
 
 export async function gameRoutes(fastify: FastifyInstance) {
     fastify.get('/pools/:id/games', {
@@ -12,8 +12,6 @@ export async function gameRoutes(fastify: FastifyInstance) {
         })
 
         const { id } = getPoolParams.parse(request.params)
-
-        console.log(request.params)
 
         const games = await prisma.game.findMany({
             orderBy: {
@@ -35,11 +33,10 @@ export async function gameRoutes(fastify: FastifyInstance) {
             games: games.map(game => {
                 return {
                     ...game,
-                    guess: game.guesses.length > 0 ? game.guesses[0] : null, 
-                    guesses: undefined,
+                    guess: game.guesses.length > 0 ? game.guesses[0] : null,
+                    guesses: undefined
                 }
             }) 
         }
     })
-
 }

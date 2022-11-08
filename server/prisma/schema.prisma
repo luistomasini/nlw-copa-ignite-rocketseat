@@ -46,13 +46,12 @@ model User {
   createdAt DateTime @default(now())
 
   participatingAt Participant[]
-  ownPools        Pool[]
+  ownPools         Pool[]
 }
 
 model Game {
-  id   String   @id @default(cuid())
-  date DateTime
-
+  id                    String   @id @default(cuid())
+  date                  DateTime
   firstTeamCountryCode  String
   secondTeamCountryCode String
 
@@ -60,8 +59,7 @@ model Game {
 }
 
 model Guess {
-  id String @id @default(cuid())
-
+  id               String   @id @default(cuid())
   firstTeamPoints  Int
   secondTeamPoints Int
   createdAt        DateTime @default(now())

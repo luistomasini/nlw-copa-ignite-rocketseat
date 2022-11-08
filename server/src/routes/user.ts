@@ -7,5 +7,4 @@ export async function userRoutes(fastify: FastifyInstance) {
 
         return { count }
     })
-
 }

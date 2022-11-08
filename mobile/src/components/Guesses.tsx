@@ -17,7 +17,7 @@ export function Guesses({ poolId, code }: Props) {
   const [isLoading, setIsLoading] = useState(true);
   const [games, setGames] = useState<GameProps[]>([]);
   const [firstTeamPoints, setFirstTeamPoints] = useState('')
-  const [secondtTeamPoints, setSecondTeamPoints] = useState('')
+  const [secondTeamPoints, setSecondTeamPoints] = useState('')
 
   const toast = useToast();
 
@@ -26,7 +26,6 @@ export function Guesses({ poolId, code }: Props) {
       setIsLoading(true);
 
       const response = await api.get(`/pools/${poolId}/games`);
-      console.log(response.data.games)
       setGames(response.data.games)
       
       
@@ -45,7 +44,7 @@ export function Guesses({ poolId, code }: Props) {
 
   async function handleGuessConfirm(gameId: string) {
     try {
-      if(!firstTeamPoints.trim() || !secondtTeamPoints.trim()){
+      if(!firstTeamPoints.trim() || !secondTeamPoints.trim()){
         return toast.show({
           title: 'Informe o placar do palpite',
           placement: 'top',
@@ -55,7 +54,7 @@ export function Guesses({ poolId, code }: Props) {
 
     await api.post(`pools/${poolId}/games/${gameId}/guesses`, {
       firstTeamPoints: Number(firstTeamPoints),
-      secondTeamPoints: Number(secondtTeamPoints),
+      secondTeamPoints: Number(secondTeamPoints),
     });
 
     toast.show({

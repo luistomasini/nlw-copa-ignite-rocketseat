@@ -2,12 +2,12 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-async function main() {
+async function main (){
     const user = await prisma.user.create({
         data: {
-            name: 'Luis Paulo',
-            email: 'luistomasini@gmail.com',
-            avatarURL: 'https://github.com/luistomasini.png'
+            name: 'John Doe',
+            email: 'john.doe@gmail.com',
+            avatarURL: 'https://github.com/luistomasini.png'    
         }
     })
 
@@ -16,10 +16,10 @@ async function main() {
             title: 'Example Pool',
             code: 'BOL123',
             ownerId: user.id,
-
+            
             participants: {
                 create: {
-                    userId: user.id,
+                    userId: user.id
                 }
             }
         }
@@ -27,34 +27,35 @@ async function main() {
 
     await prisma.game.create({
         data: {
-            date: '2022-11-02T12:00:00.992Z',
+            date: '2022-11-06T12:00:55.661Z', 
             firstTeamCountryCode: 'DE',
-            secondTeamCountryCode: 'BR',
+            secondTeamCountryCode: 'BR' 
         }
     })
 
     await prisma.game.create({
-       data: {
-            date: '2022-11-03T12:00:00.992Z',
+        data: {
+            date: '2022-11-07T12:00:55.661Z', 
             firstTeamCountryCode: 'BR',
             secondTeamCountryCode: 'AR',
+            
+            guesses: {
+                create: {
+                    firstTeamPoints: 2,
+                    secondTeamPoints: 1,
 
-         guesses: {
-            create: {
-                firstTeamPoints: 2,
-                secondTeamPoints: 1,
-
-                participant: {
-                    connect: {
-                        userId_poolId: {
-                            userId: user.id,
-                            poolId: pool.id,
+                    participant: {
+                        connect: {
+                            userId_poolId: {
+                                userId: user.id,
+                                poolId: pool.id,
+                            }
                         }
                     }
                 }
             }
-         }   
-       }, 
+        },
     })
 }
+
 main()

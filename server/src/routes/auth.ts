@@ -1,13 +1,12 @@
 import { FastifyInstance } from "fastify"
 import { z } from "zod"
 import { prisma } from "../lib/prisma"
-import { authenticate } from "../plugins/authenticate"
+import { authenticate } from "../plugins/autheticate"
 
 export async function authRoutes(fastify: FastifyInstance) {
-    fastify.get('/me', {
-            onRequest: [authenticate],
+    fastify.get('/me',{
+        onRequest: [authenticate],
         }, async (request) => {
-        await request.jwtVerify()
 
         return { user: request.user }
     })
@@ -15,6 +14,7 @@ export async function authRoutes(fastify: FastifyInstance) {
     fastify.post('/users', async (request) => {
         const createUserBody = z.object({
             access_token: z.string(),
+
         })
 
         const { access_token } = createUserBody.parse(request.body)
@@ -22,7 +22,7 @@ export async function authRoutes(fastify: FastifyInstance) {
         const userResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
             method: 'GET',
             headers: {
-                Authorization: `Bearer ${access_token}`
+                Authorization: `Bearer ${access_token}`,
             }
         })
 
@@ -39,7 +39,7 @@ export async function authRoutes(fastify: FastifyInstance) {
 
         let user = await prisma.user.findUnique({
             where: {
-               googleId: userInfo.id, 
+                googleId: userInfo.id,
             }
         })
 
@@ -49,21 +49,19 @@ export async function authRoutes(fastify: FastifyInstance) {
                     googleId: userInfo.id,
                     name: userInfo.name,
                     email: userInfo.email,
-                    avatarURL: userInfo.picture,
+                    avatarURL: userInfo.picture
                 }
             })
         }
 
         const token = fastify.jwt.sign({
             name: user.name,
-            avatarURL: user.avatarURL,
+            avatarURL: user.avatarURL
         }, {
             sub: user.id,
-            expiresIn: '7 days',
+            expiresIn: '7 days'
         })
 
         return { token }
-
-
     })
 }
