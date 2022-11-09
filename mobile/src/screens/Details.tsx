@@ -33,7 +33,9 @@ export function Details(){
             setIsLoading(true);
 
             const response = await api.get(`/pools/${id}`)
+            
             setPoolDetails(response.data.pool);
+            
 
         } catch (error) {
             console.log(error)
